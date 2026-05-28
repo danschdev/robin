@@ -13,5 +13,11 @@ data = {
     ],
 }
 
-req = requests.post(url, json.dumps(data))
-print(req.status_code)
+with requests.post(url, json.dumps(data)) as stream:
+    responseText = ""
+    for line in stream.iter_lines():
+        object = json.loads(line)
+        if object["message"] and object["message"]["role"] == "assistant":
+            responseText += object["message"]["content"]
+
+print(responseText)
