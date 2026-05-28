@@ -1,3 +1,4 @@
 pre-commit
 pyright
 ruff
+requests
