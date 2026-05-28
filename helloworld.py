@@ -2,13 +2,14 @@
 import json
 import requests
 
+requestText = "Moin! Schön dass du lokal auf meinem Rechner läufst und über die API ansprechbar bist."
 url = "http://localhost:11434/api/chat"
 data = {
     "model": "gpt-oss:20b",
     "messages": [
         {
             "role": "user",
-            "content": "Moin, schön dass du lokal auf meinem Rechner läufst und über die API ansprechbar bist.",
+            "content": requestText,
         }
     ],
 }
@@ -20,4 +21,5 @@ with requests.post(url, json.dumps(data)) as stream:
         if object["message"] and object["message"]["role"] == "assistant":
             responseText += object["message"]["content"]
 
+print(requestText)
 print(responseText)
