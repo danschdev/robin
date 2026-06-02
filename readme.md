@@ -25,3 +25,22 @@ venv\Scripts\activate
 pip install -r requirements.txt
 pre-commit install
 ```
+
+
+## Code Quality Tools
+
+### Ruff usage
+Static analysis / linting
+```bash
+ruff check --fix
+```
+
+Layout style
+```bash
+ruff format .
+```
+
+### Pyright Usage
+```bash
+pyright .
+```
