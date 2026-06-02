@@ -12,13 +12,20 @@ data = {
             "content": requestText,
         }
     ],
+    "think": True,
 }
 print(requestText)
 with requests.post(url, json.dumps(data), stream=True) as stream:
+    responseThoughts = ""
     responseText = ""
     for line in stream.iter_lines():
         object = json.loads(line)
-        if object["message"] and object["message"]["role"] == "assistant":
-            responseText += object["message"]["content"]
-            if responseText:
-                print(object["message"]["content"], end="")
+        if "thinking" in object["message"]:
+            responseThoughts += object["message"]["thinking"]
+            print(object["message"]["thinking"], end="")
+        # TODO: Add separator between thinking output and answer output
+        else:
+            if object["message"] and object["message"]["role"] == "assistant":
+                responseText += object["message"]["content"]
+                if responseText:
+                    print(object["message"]["content"], end="")
