@@ -18,13 +18,16 @@ print(requestText)
 with requests.post(url, json.dumps(data), stream=True) as stream:
     responseThoughts = ""
     responseText = ""
+    finishedThinking = False
     for line in stream.iter_lines():
         object = json.loads(line)
         if "thinking" in object["message"]:
             responseThoughts += object["message"]["thinking"]
             print(object["message"]["thinking"], end="")
-        # TODO: Add separator between thinking output and answer output
         else:
+            if not finishedThinking:
+                finishedThinking = True
+                print("\n\n------------------------\n\n")
             if object["message"] and object["message"]["role"] == "assistant":
                 responseText += object["message"]["content"]
                 if responseText:
