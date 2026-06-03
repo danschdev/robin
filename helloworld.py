@@ -2,7 +2,7 @@
 import json
 import requests
 
-requestText = "Moin! Schön dass du lokal auf meinem Rechner läufst und über die API ansprechbar bist. Gib mir mal einen Text aus zwei Absätzen, der dich etwas Denkvermögen kostet."
+requestText = "Guten Morgen Sonnenschein, weck mich auf und komm herein!"
 url = "http://localhost:11434/api/chat"
 data = {
     "model": "gpt-oss:20b",
@@ -15,20 +15,21 @@ data = {
     "think": True,
 }
 print(requestText)
-with requests.post(url, json.dumps(data), stream=True) as stream:
+with requests.post(url, data=json.dumps(data), stream=True) as stream:
     responseThoughts = ""
     responseText = ""
     finishedThinking = False
     for line in stream.iter_lines():
         object = json.loads(line)
-        if "thinking" in object["message"]:
+        message = object.get("message")
+        if message and "thinking" in message:
             responseThoughts += object["message"]["thinking"]
             print(object["message"]["thinking"], end="")
         else:
             if not finishedThinking:
                 finishedThinking = True
                 print("\n\n------------------------\n\n")
-            if object["message"] and object["message"]["role"] == "assistant":
+            if message and message["role"] == "assistant":
                 responseText += object["message"]["content"]
                 if responseText:
                     print(object["message"]["content"], end="")
