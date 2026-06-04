@@ -8,7 +8,7 @@ conn = sqlite3.connect(db)
 cursor = conn.cursor()
 
 cursor.execute("""
-               CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY AUTOINCREMENT,
+               CREATE TABLE IF NOT EXISTS requests (id INTEGER PRIMARY KEY AUTOINCREMENT,
                content TEXT NOT NULL);
                """)
 conn.close()
