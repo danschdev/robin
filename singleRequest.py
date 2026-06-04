@@ -2,8 +2,9 @@
 import json
 import requests
 
-requestText = "Hallo, lass uns ein bisschen plaudern!"
-prefaceText = "Hallo, ich habe folgende Anfrage erhalten. Bitte entscheide für mich, welches Sprachmodell diese am schnellsten und ressourcenschonendsten löst und gib mir nur den exakten Namen des Modells zurück, wie es in folgender Liste steht:"
+models = ["gemma3:1b", "gpt-oss:20b", "llama3.1", "qwen2"]
+requestText = "Analysiere die folgende Benutzeranfrage und entscheide, welches Tool verwendet werden soll: Kalender, Wetter, Suche oder E-Mail. Antworte nur mit dem Toolnamen."
+prefaceText = "Hallo, ich habe folgende Anfrage erhalten. Bitte entscheide für mich, welches Sprachmodell für diese am besten geeignet ist, begründe nicht und nenne die anderen nicht in deiner Antwort:"
 prefaceText += "gemma3:1b, gpt-oss:20b, llama3.1, qwen2; Hier die Anfrage: "
 url = "http://localhost:11434/api/chat"
 data = {
@@ -15,7 +16,7 @@ data = {
         }
     ],
 }
-print(requestText)
+print(prefaceText + requestText)
 with requests.post(url, data=json.dumps(data), stream=True) as stream:
     responseThoughts = ""
     responseText = ""
@@ -25,5 +26,9 @@ with requests.post(url, data=json.dumps(data), stream=True) as stream:
         message = object.get("message")
         if message and message["role"] == "assistant":
             responseText += object["message"]["content"]
-            if responseText:
-                print(object["message"]["content"], end="")
+    for model in models:
+        print(model in responseText)
+        if model.upper() in responseText.upper():
+            print(model)
+            print(model.upper())
+    print(responseText)
