@@ -2,19 +2,20 @@
 import json
 import requests
 
-requestText = "Guten Morgen Sonnenschein, weck mich auf und komm herein!"
+print("Enter request: ")
+requestText = input()
 url = "http://localhost:11434/api/chat"
+thinkParameter = False
 data = {
-    "model": "gpt-oss:20b",
+    "model": "gemma3:1b",
     "messages": [
         {
             "role": "user",
             "content": requestText,
         }
     ],
-    "think": True,
+    "think": thinkParameter,
 }
-print(requestText)
 with requests.post(url, data=json.dumps(data), stream=True) as stream:
     responseThoughts = ""
     responseText = ""
@@ -22,11 +23,11 @@ with requests.post(url, data=json.dumps(data), stream=True) as stream:
     for line in stream.iter_lines():
         object = json.loads(line)
         message = object.get("message")
-        if message and "thinking" in message:
+        if message and thinkParameter and "thinking" in message:
             responseThoughts += object["message"]["thinking"]
             print(object["message"]["thinking"], end="")
         else:
-            if not finishedThinking:
+            if thinkParameter and not finishedThinking:
                 finishedThinking = True
                 print("\n\n------------------------\n\n")
             if message and message["role"] == "assistant":
