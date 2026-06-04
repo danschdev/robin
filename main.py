@@ -14,8 +14,8 @@ print("Enter request: ")
 requestText = input()
 
 statement = """
-                INSERT INTO requests (content)
-               VALUES (?)
+                INSERT INTO messages (content, role)
+               VALUES (?,  "user")
                RETURNING id, content
              """
 data = [requestText]
@@ -57,10 +57,10 @@ with requests.post(url, data=json.dumps(data), stream=True) as stream:
                     print(object["message"]["content"], end="")
 
 statement = """
-               INSERT INTO responses (content, request_id)
-               VALUES (?, ?)
+               INSERT INTO messages (content, role)
+               VALUES (?, "assistant")
                """
-data = [responseText, requestId]
+data = [responseText]
 
 cursor.execute(statement, data)
 
