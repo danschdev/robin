@@ -26,6 +26,11 @@ pip install -r requirements.txt
 pre-commit install
 ```
 
+### 4. Set up database
+
+```bash
+python.exe .\setup\setupDatabase.py
+```
 
 ## Code Quality Tools
 
