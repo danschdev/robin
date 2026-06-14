@@ -18,6 +18,7 @@ source venv/bin/activate
 
 ```bash
 venv\Scripts\activate
+```
 
 ### 3. Install dependencies
 
@@ -31,6 +32,11 @@ pre-commit install
 ```bash
 python.exe .\setup\setupDatabase.py
 ```
+
+### 5. Run Flask server
+
+```bash
+python -m flask --app=server/server.py run
 
 ## Code Quality Tools
 
