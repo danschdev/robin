@@ -1,3 +1,4 @@
+flask
 pandas
 pre-commit
 pyright
