@@ -26,14 +26,9 @@ def getChat():
 
     df = pandas.read_sql_query(statement, conn)
 
-    messages = []
+    output = ""
 
     for row in df.iterrows():
-        messages.append(
-            {
-                "role": row[1]["role"],
-                "content": row[1]["content"],
-            }
-        )
+        output += str(row[1]["role"] + ": " + row[1]["content"] + "<br/>")
 
-    return messages
+    return output
