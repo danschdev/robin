@@ -29,6 +29,6 @@ def getChat():
     output = ""
 
     for row in df.iterrows():
-        output += str(row[1]["role"] + ": " + row[1]["content"] + "<br/>")
+        output += str("<b>" + row[1]["role"] + "</b>: " + row[1]["content"] + "<br/>")
 
     return output
