@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+from pandas import pandas
 from pathlib import Path
 import requests
 import sqlite3
@@ -21,16 +22,29 @@ statement = """
 cursor.execute(statement, [requestText])
 conn.commit()
 
+statement = """
+                SELECT created_at, role, content FROM messages
+                ORDER BY created_at ASC
+            """
+
+df = pandas.read_sql_query(statement, conn)
+
+messages = []
+
+for row in df.iterrows():
+    messages.append(
+        {
+            "role": row[1]["role"],
+            "content": row[1]["content"],
+        }
+    )
+
 url = "http://localhost:11434/api/chat"
 data = {
     "model": "gemma3:1b",
-    "messages": [
-        {
-            "role": "user",
-            "content": requestText,
-        }
-    ],
+    "messages": messages,
 }
+
 with requests.post(url, data=json.dumps(data), stream=True) as stream:
     responseThoughts = ""
     responseText = ""

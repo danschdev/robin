@@ -14,3 +14,4 @@ repos:
   - id: pyright
     name: Pyright
     description: Static type checking
+    additional_dependencies: [pandas, requests]
