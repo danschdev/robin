@@ -1,4 +1,5 @@
 flask
+langchain-ollama
 pandas
 pre-commit
 pyright

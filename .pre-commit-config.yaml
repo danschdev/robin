@@ -14,4 +14,4 @@ repos:
   - id: pyright
     name: Pyright
     description: Static type checking
-    additional_dependencies: [flask, pandas, requests]
+    additional_dependencies: [flask, langchain_ollama, pandas, requests]
