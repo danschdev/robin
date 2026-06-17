@@ -26,6 +26,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 pre-commit install
 ```
+Remember to list dependencies in .pre-commit-config.yaml.
 
 ### 4. Set up database
 
